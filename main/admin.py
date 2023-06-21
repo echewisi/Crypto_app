@@ -21,7 +21,7 @@ class CryptoAdmin(admin.ModelAdmin):
     list_display=[
         'user',
         'name',
-        'id_from_api',
+        'id_from_API',
         'symbol',
     ]
 
@@ -29,7 +29,7 @@ class CryptoAdmin(admin.ModelAdmin):
 class PortfolioAdmin(admin.ModelAdmin):
     list_display=[
         'user',
-        'total value'
+        'total_value'
     ]
     
 
