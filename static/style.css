@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300:400:500:700&display=swap');
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: #555;
+}
+
+body{
+    overflow-x: hidden;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    background-color: #130f40;
+    background-image: linear-gradient(315deg, #130f40 0%, #000000 74%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+.green-arrow{
+    font-size: 18px;
+    color: green;
+}
+
+.red-arrow{
+    font-size: 18px;
+    color: red;
+}
+
+.flex-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.crypto-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid gray;
+    padding: 10px;
+    width: 300px;
+}
+
+.crypto-info{
+    margin-left: 10px;
+}
+
+.tt-menu{
+    width: 100%;
+}
+
+.tt-suggestion{
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.tt-suggestion.tt-cursor{
+    background-color: #f5f5f5;
+}
+
+.typehead{
+    border-radius: 0;
+}
+
+.custom-nav-logo{
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+nav{
+    box-shadow: -10px 8px 0px rgb(196, 181, 253);
+    background: #0f0f0f;
+    color: white;
+    margin-bottom: 50px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    text-align: center;
+}
+
+.referral-code p{
+    font-size: 1.1rem;
+}
+
+.custom-heading{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: underline #fff solid 1px;
+    text-underline-offset: 10px;
+    margin-bottom: 1rem;
+}
+
+th, td{
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th{
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 5px solid rgb(0, 0, 0);
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+tbody tr:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+    
+}
