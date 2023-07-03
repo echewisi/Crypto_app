@@ -136,5 +136,51 @@ th{
 
 tbody tr:hover{
     background-color: rgba(255, 255, 255, 0.1);
-    
+}
+
+.alert{
+    border-radius: 2px;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+    padding: 0.5rem 1rem;
+}
+
+.alert-success{
+    background-color: #007f1e;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.alert-info{
+    background-color: #009cb4;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.alert-danger{
+    background-color: #520008;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.fancy-color{
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
+}
+
+.custom-titel{
+    margin-left: -175px;
+    margin-top: -30px;
+    margin-bottom: 50px;
+    padding: 0.5rem 0.5rem;
+    width: fit-content;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.welcome-user-text{
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
 }
