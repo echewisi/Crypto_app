@@ -1,6 +1,6 @@
+import requests
 from django.shortcuts import render, redirect
 from .models import Referral, Portfolio, Profile, Cryptomodel
-import requests
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
