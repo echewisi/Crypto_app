@@ -63,8 +63,9 @@ def refer_view(request, referral_code):
             messages.success(request, "you have successfully signed up!")
             return redirect('login')
     else:
-        form= UserCreationForm()
+        form= CustomUserCreationForm()
     
     return render(request, 'signup.html', {'form': form})
+
 
 # Create your views here.
