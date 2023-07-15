@@ -10,8 +10,13 @@
             {% if user.is_authenticated%}
             <div class="btn-group" role="group">
                 <a class="btn btn-primary my-2 my-sm-0 mr-2" href="{%url 'portfolio'%}">View wallet</a>
-                <a class="btn btn-success my-2 my-sm-0 mr-2" href="{%url 'signup'%}">Signup</a>
+                <a class="btn btn-danger my-2 my-sm-0 mr-2" href="{%url 'logout'%}">Logout</a>
             </div>
+            {%else%}
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary my-2 my-sm-0 mr-2" href="{%url 'login'%}">Login</a>
+                    <a class="btn btn-success my-2 my-sm-0 mr-2" href="{%url 'signup'%}">Signup</a>
+                </div>
             {%endif%}
         </ul>
     </div>
