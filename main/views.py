@@ -34,6 +34,15 @@ def signup_view(request):
     
     return render(request, 'signup.html', {'form': form})
 
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('portfolio')
+    
+    if request.method == "POST":
+        form= AuthenticationForm(request.POST)
+        if form.is_valid():
+            username= form.cleaned_data.get('username')
+
 #if user is already logged in:
 def refer_view(request, referral_code):
     if request.user.is_authenticated:
