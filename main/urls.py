@@ -4,7 +4,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.home_view(), name="home"),
+    path(" ", views.onboarding_view(), name="onboarding"),
+    path("home/", views.home_view(), name="home"),
     #authentication to be handled here
     path("login/", views.login_view(), name="login"),
     path("logout/", views.logout_view(), name="logout"),

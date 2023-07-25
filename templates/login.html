@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+{%block title%}
+Login
+{%endblock%}
+{% block content %}
+    <h1>Login</h1>
+    {% for message in messages %}
+        <p class="alert alert-{{message.tags}}">{{message}}</p>
+    {%endfor%}
+    <form method="POST" class="my-4 p-4 border border-dark rounded">
+        {%csrf_token%}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block my-2">Login</button>
+    </form>
+    
+    <p>Dont have an account? click here to <a href="{%url 'signup'%}">Signup</a></p>
+    <p>Forgot password? click here to <a href="{% url 'password_reset'%}'">Reset password</a></p>
+
+{%endblock%}
