@@ -16,6 +16,7 @@ from django.utils.http import urlsafe_base64_decode
 from .forms import CustomUserCreationForm
 
 def onboarding_view(request):
+    
     return render(request,'onboarding.html')
 
 def home_view(request):

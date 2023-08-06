@@ -1,0 +1,57 @@
+{%extends 'base.html'%}
+{%block title%}
+Home
+{%endblock title%}
+
+{%block content%}
+{%if messages%}
+    {%for message in messages%}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {%endfor%}
+{%endif%}
+
+{%if user.is_authenticated%}
+<div class="row justify-content-left custom-title">
+    <h2 class="text-uppercase text-primary welcome-user-text"> Welcome {{user.username|capfirst}}</h2>
+</div>
+{%endif%}
+
+<!-- THIS IS FOR THE SEARCH BAR -->
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <h2 class="text-center custom-heading">Search cryptourrency</h2>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <form action="{%url 'search'%}" method="POST">
+                {%csrf_token%}
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search cryptos..." name="search_query" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- global currencies(crypro) -->
+<div class="row justify-content-center">
+    <h2 class="text-center mt-5 mb-0 custom-heading">Top 10 cryptocurrency</h2>
+</div>
+<br><br><br>
+<div class="flex-container">
+    {% if topten_crypto_data%}
+        {%for obj in topten_crypto_data%}
+            <div class="crypto-item">
+                <img src={{obj.image}} height="70">
+            </div>
+
+</div>
+{%endbock%}
