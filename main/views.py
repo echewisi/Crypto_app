@@ -29,7 +29,7 @@ def home_view(request):
         #checks the prices for the user's cryptocurrencies:
         names= [crypto.name for crypto in user_Cryptocurrencies]
         symbols= [crypto.symbol for crypto in user_Cryptocurrencies]
-        ids=[crypto.id_from_api for crypto in user_Cryptocurrencies]
+        ids=[crypto.id_from_Api for crypto in user_Cryptocurrencies]
         prices=[]
         
         #this shows tge price change of user's cryptocurrencies in the last 24 hours and not the percentage change to reduce the number of API calls(only 10-20 per minute are allowed for free users)
@@ -51,8 +51,8 @@ def home_view(request):
     else:
         context= {'topten_crypto_data': topten_crypto_data}
     return render(request, 'home.html', context)
-        
-        
+
+
 def signup_view(request):
     if request.user.is_authenticated:
         return redirect("portfolio")
@@ -71,6 +71,7 @@ def signup_view(request):
         form= CustomUserCreationForm()
     
     return render(request, 'signup.html', {'form': form})
+
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -91,11 +92,15 @@ def login_view(request):
         form= AuthenticationForm()
     return render(request, 'login.html', {'form':form})
 
+
 @login_required(login_url= 'login')
 def logout_view(request):
     logout(request)
     messages.success(request, 'you have successfully logged out!')
     return redirect('home')
+
+
+
 #if user is already logged in:
 def refer_view(request, referral_code):
     if request.user.is_authenticated:
@@ -129,5 +134,44 @@ def refer_view(request, referral_code):
     
     return render(request, 'signup.html', {'form': form})
 
+@login_required(login_url='login')
+def search_view(request):
+    if request.method != 'POST':
+        #this will throw a 405 error if the request method iss not POST
+        return HttpResponseNotAllowed(['POST'], "only post requests are allowed. return to search")
+    if not (search_query:=request.POST.get('search_query')):
+        return HttpResponse('No cryptocurrency found based on your search!')
 
-# Create your views here.1
+    api_url= f'https://api.coingecko.com/api/v3/search?query={search_query}'
+    response= requests.get(api_url)
+    search_results= response.json()
+    try:
+        data= search_results['coins']
+    except IndexError:
+        return HttpResponse('no crypto currency found based on your search')
+    
+    coin_id= data['id']
+    image= data['large']
+    symbol= data['symbol']
+    market_cap= data['market_cap_rank']
+    
+    #check if the crypto currency is already in the user's portfolio and pass that information to the template
+    current_user= request.user
+    is_already_in_portfolio= False
+    
+    user_cryptocurrencies= Cryptomodel.objects.filter(user= request.user)
+    for cryptocurrency in user_cryptocurrencies:
+        if cryptocurrency.name.lower()== coin_id.lower():
+            is_already_in_portfolio= True
+    
+    context={
+        'data': data,
+        'coin_id': coin_id,
+        'image': image,
+        'symbol': symbol,
+        'market_cap': market_cap,
+        'is_already_in_portfolio': is_already_in_portfolio
+    }
+    
+    return render(request, 'search.html', context)
+# Create your views here.

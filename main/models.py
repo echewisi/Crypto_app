@@ -11,7 +11,6 @@ class Profile(models.Model):
     
     def __str__(self) -> str:
         return self.user.username
-    
 
 class Referral(models.Model):
     user= models.ForeignKey(User, on_delete= models.CASCADE)

@@ -15,7 +15,7 @@ urlpatterns = [
     #Wallet page
     # path("portfolio/", views.portfolio_view, name="portfolio"),
     #CRUD operations on portfolio
-    # path("search/", views.search_view(), name="search"),
+    path("search/", views.search_view(), name="search"),
     # path("porfolio_addition/", views.portfolio_add(), name= "port_add"), #to add crypto to portfolio
     # path("portfolio_deletion/", views.portfolio_delete(), name="port_delete"), #to delete a crypto from portfolio
     #password reset

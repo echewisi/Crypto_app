@@ -41,7 +41,7 @@ Home
     </div>
 </div>
 
-<!-- global currencies(crypro) -->
+<!-- global currencies(crypto) -->
 <div class="row justify-content-center">
     <h2 class="text-center mt-5 mb-0 custom-heading">Top 10 cryptocurrency</h2>
 </div>
@@ -51,7 +51,66 @@ Home
         {%for obj in topten_crypto_data%}
             <div class="crypto-item">
                 <img src={{obj.image}} height="70">
+                <div class="crypto-info">
+                    <h3>{{obj.name}}</h3>
+                    <p><b>Rank</b>: {{obj.market_cap_rank}}</p>
+                    <p><b>Market</b> cap: {{obj.market_cap}}</p>
+                    <p><b>Price</b>: {{obj.current_price}}</p>
+                    <p><b>Price change 24H</b>: {{obj.price_change_24h|floatformat:5}}
+                    {%if obj.price_change_percentage_24h > 0%}
+                        <i class="fa fa-arrow-up green-arrow"></i>
+                    {% else %}
+                        <i class="fa fa-arrow-down red-arrow"></i>
+                    {%endif%}
+                    </p<b>
+                    
+                        <p><b>Price change 24H(%)</b>: {{obj.price_change_percentage_24h|floatformat:3}}
+                        {% if obj.price_change_percentage_24h > 0%}
+                            <i class="fa fa-arrow-up green-arrow"></i>
+                        {% else %}
+                            <i class="fa fa-arrow-down green-arrow"></i>
+                        {% endif %}
+                        </p>
+                </div>
             </div>
-
+        {%endfor%}
+    {%else%}
+            <h3>No data</h3>
+    {%endif%}
 </div>
-{%endbock%}
+
+<!-- USER CRYPTOCURRENCIES -->
+{%if user.is_authenticated%}
+    <div class="row justify-content-center">
+        <h2 class="text-center mt-5 mb-3 custom-heading"> Summary of your cryptocurrencies(24H)</h2>
+    </div>
+    {%if user_crytocurrencies %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered custom-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Owned</th>
+                        <th>Price Shift</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for k,v in crypto_price_changes.items%}
+                    <tr>
+                        <td>{{ forloop.counter}}</td>
+                        <td>{{k}}</td>
+                        <td>{{v|floatformat:5}}
+                            {% if v>0 %}
+                            <i class="fa fa-arrow-up green-arrow"></i>
+                        {%else%}
+                            <i class="fa fa-arrow-up green-arrow"></i>
+                        {%endif%}
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        {%else%}
+            <h3 class="text-center alert alert-danger">No cryptocurrencies in wallet. access search bar above to find one of choice</h3>
+        </div>
+{%endblock%}
