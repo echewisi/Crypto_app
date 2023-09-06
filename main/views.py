@@ -134,6 +134,7 @@ def refer_view(request, referral_code):
     
     return render(request, 'signup.html', {'form': form})
 
+
 @login_required(login_url='login')
 def search_view(request):
     if request.method != 'POST':
@@ -174,4 +175,59 @@ def search_view(request):
     }
     
     return render(request, 'search.html', context)
+
+@login_required(login_url= 'login')
+def portfolio_add(request):
+    if request.method != 'POST':
+        return HttpResponse('cryptocurrency needed to add to your portfolio. go to homepage and search for one')
+    
+    #get the values from the form
+    coin_id= request.POST.get('id')
+    quantity= request.POST.get('quantity')
+    print(coin_id)
+    
+    #get the cryptocurrency data from the coingecko api based on the coin_id
+    api_url= f'https://api.coingecko.com/api/v3/coins/{coin_id}'
+    response= requests.get(api_url)
+    data= response.json()
+    print(data)
+    
+    #store the name, symbol,current price, and market cap rank of the cryptocurrency
+    user= request.user
+    name= data['name']
+    id_from_Api= data['id']
+    symbol= data['symbol']
+    current_price= data['market_data']['current_price']['usd']
+    
+    try:
+        #save the crypto currency to the database
+        crypto_currency= Cryptomodel.objects.create(
+            user=user,
+            name= name,
+            id_from_Api= id_from_Api,
+            symbol= symbol,
+            quantity= quantity,
+            current_price= current_price
+        )
+    except IntegrityError:
+        crypto_currency= Cryptomodel.objects.get(user=user, name=name)
+        crypto_currency.quantity += int(quantity)
+    crypto_currency.save()
+    
+    #calculate the total value of the crypto currency
+    total_value= int(quantity) * int(current_price)
+    
+    #save the total value of the crypto currency to the database in the portfolio model
+    #check is user already has a portfolio
+    if Portfolio.objects.filter(user=user).exists():
+        portfolio= Portfolio.objects.get(user=user)
+        portfolio.total_value += total_value
+    else:
+        portfolio= Portfolio(user=user, total_value=total_value)
+    
+    portfolio.save()
+    messages.success(request, f'{name} has been added to your portfolio')
+
+    #if all the above are successful, redirect the user to the portfolio page 
+    return redirect('portfolio')
 # Create your views here.
