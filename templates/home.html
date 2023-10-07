@@ -100,7 +100,7 @@ Home
                         <td>{{ forloop.counter}}</td>
                         <td>{{k}}</td>
                         <td>{{v|floatformat:5}}
-                            {% if v>0 %}
+                            {% if v > 0 %}
                             <i class="fa fa-arrow-up green-arrow"></i>
                         {%else%}
                             <i class="fa fa-arrow-up green-arrow"></i>
@@ -110,7 +110,9 @@ Home
                     {%endfor%}
                 </tbody>
             </table>
-        {%else%}
+    {%else%}
             <h3 class="text-center alert alert-danger">No cryptocurrencies in wallet. access search bar above to find one of choice</h3>
         </div>
+    {%endif%}
+{%endif%}
 {%endblock%}

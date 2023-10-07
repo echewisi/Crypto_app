@@ -16,7 +16,7 @@ from django.utils.http import urlsafe_base64_decode
 from .forms import CustomUserCreationForm
 
 def onboarding_view(request):
-    
+
     return render(request,'onboarding.html')
 
 def home_view(request):
@@ -25,7 +25,7 @@ def home_view(request):
     #if user is logged in:
     if request.user.is_authenticated:
         user_Cryptocurrencies= Cryptomodel.objects.filter(user= request.user)
-        user_portfolio= Portfolio.objects.filer(user= request.user).first()
+        user_portfolio= Portfolio.objects.filter(user= request.user).first()
         #checks the prices for the user's cryptocurrencies:
         names= [crypto.name for crypto in user_Cryptocurrencies]
         symbols= [crypto.symbol for crypto in user_Cryptocurrencies]
@@ -78,7 +78,7 @@ def login_view(request):
         return redirect('portfolio')
     
     if request.method == "POST":
-        form= AuthenticationForm(request.POST)
+        form= AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username= form.cleaned_data.get('username')
             raw_password= form.cleaned_data.get('password')
@@ -113,7 +113,7 @@ def refer_view(request, referral_code):
         return HttpResponse('Referrer does not exist')
     
     if request.method== 'POST':
-        form= UserCreationForm(request.POST)
+        form= CustomUserCreationForm(request.POST)
         if form.is_valid():
             user= form.save(commit=False)
             user.password= make_password(form.cleaned_data['password1'])
@@ -229,5 +229,81 @@ def portfolio_add(request):
     messages.success(request, f'{name} has been added to your portfolio')
 
     #if all the above are successful, redirect the user to the portfolio page 
+    return redirect('portfolio')
+
+
+@login_required(login_url= 'login')
+def portfolio_view(request):
+    #get the logged in user
+    current_user= request.user
+    
+    #get the referral code of the current user
+    referral_code= current_user.profile.referral_code
+    
+    #get list of all users who have current user as thier referrer/ remember the database belongs to me so i habe the detail of every user including the current one.
+    referrals= Referral.objects.filter(referrer= current_user)
+    
+    #get total bonus earned by the current user
+    total_bonus= current_user.profile.bonus
+    
+    #get the list of cryptocurrencies owned by the current user
+    user_cryptocurrencies= Cryptomodel.objects.filter(user= current_user)
+    
+    if user_portfolio:= Portfolio.objects.filter(user= current_user).first():
+        portfolio= Portfolio.objects.get(user= current_user)
+        
+        #get all the cryptocurrencies in the portfolio and recalculate the total value of the portfolio
+        new_porfolio_value=0
+        
+        user_cryptocurrencies= Cryptomodel.objects.filter(user= current_user)
+        for cryptocurrency in user_cryptocurrencies:
+            total_value= cryptocurrency.quantity * cryptocurrency.current_price
+            new_porfolio_value += total_value
+        
+        portfolio.total_value= new_porfolio_value
+        portfolio.save()
+        
+        context={
+            'current_user': current_user,
+            'referral_code': referral_code,
+            'user_cryptocurrencies': user_cryptocurrencies,
+            'user_portfolio': user_portfolio,
+            'referrals': referrals,
+            'total_bonus': total_bonus,
+            'new_portfolio_value': new_porfolio_value,
+        }
+    else:
+        context={
+            'current_user': current_user,
+            'referral_code': referral_code,
+            'user_cryptocurrencies': user_cryptocurrencies,
+            'user_portfolio': user_portfolio,
+            'referrals': referrals,
+            'total_bonus': total_bonus,           
+        }
+    return render(request, 'portfolio.html', context)
+
+@login_required(login_url= 'login')
+def portfolio_delete(request, pk):
+    user= request.user
+    #get the cryptocurrency object from the database
+    crypto_currency= Cryptomodel.objects.get(pk=pk)
+    
+    #delete the crypto currency from the database
+    crypto_currency.delete()
+    
+    #update the total value of the portfolio
+    portfolio= Portfolio.objects.get(user=user)
+    
+    #get all the crypto currencies in the portolio and recaluclate the total value of the portfolio
+    user_cryptocurrencies= Cryptomodel.objects.filter(user=user)
+    for cryptocurrency in user_cryptocurrencies:
+        total_value= cryptocurrency.quantity * cryptocurrency.current_price
+        portfolio.total_value += total_value
+    portfolio.save()
+    
+    #sends an alert when the cryptocurrency is deleted
+    messages.warning(request, f'{crypto_currency.name}')
+    
     return redirect('portfolio')
 # Create your views here.
