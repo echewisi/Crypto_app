@@ -83,7 +83,7 @@
                 <td>{{ crypto.current_price }}</td>
                 <td>{{ crypto.quantity }}</td>
                 <td>
-                    <a href="{% url 'port_delete' crypto.id %}"><i class="fa fa-trash red-arrow"></i></a>
+                    <a href="{% url 'port_delete' crypto.id %}"><i class="fa fa-trash red-arrow">DELETE</i></a>
                 </td>
             </tr>
             {% endfor %}

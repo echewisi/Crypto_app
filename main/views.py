@@ -305,7 +305,7 @@ def portfolio_delete(request, pk):
     portfolio.save()
     
     #sends an alert when the cryptocurrency is deleted
-    messages.warning(request, f'{crypto_currency.name}')
+    messages.warning(request, f'{crypto_currency.name} has been deleted!' )
     
     return redirect('portfolio')
 # Create your views here.

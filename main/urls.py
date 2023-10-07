@@ -17,7 +17,7 @@ urlpatterns = [
     #CRUD operations on portfolio
     path("search/", views.search_view, name="search"),
     path("porfolio_addition/", views.portfolio_add, name= "port_add"), #to add crypto to portfolio
-    path("portfolio_deletion/<int:id>", views.portfolio_delete, name="port_delete"), #to delete a crypto from portfolio
+    path("portfolio_deletion/<int:pk>/", views.portfolio_delete, name="port_delete"), #to delete a crypto from portfolio
     #password reset
     path("password_reset/", auth_views.PasswordResetView.as_view(template_name="reset/password_reset.html"), name="password_reset"),
     path("password_reset_done/", auth_views.PasswordResetDoneView.as_view(template_name="reset/password_reset_done.html"), name="password_reset_done"),
