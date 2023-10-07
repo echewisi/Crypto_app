@@ -29,7 +29,7 @@ def home_view(request):
         #checks the prices for the user's cryptocurrencies:
         names= [crypto.name for crypto in user_Cryptocurrencies]
         symbols= [crypto.symbol for crypto in user_Cryptocurrencies]
-        ids=[crypto.id_from_Api for crypto in user_Cryptocurrencies]
+        ids=[crypto.id_from_API for crypto in user_Cryptocurrencies]
         prices=[]
         
         #this shows tge price change of user's cryptocurrencies in the last 24 hours and not the percentage change to reduce the number of API calls(only 10-20 per minute are allowed for free users)
@@ -146,8 +146,10 @@ def search_view(request):
     api_url= f'https://api.coingecko.com/api/v3/search?query={search_query}'
     response= requests.get(api_url)
     search_results= response.json()
+    
+    print(search_results)
     try:
-        data= search_results['coins']
+        data= search_results['coins'][0]
     except IndexError:
         return HttpResponse('no crypto currency found based on your search')
     
@@ -204,7 +206,7 @@ def portfolio_add(request):
         crypto_currency= Cryptomodel.objects.create(
             user=user,
             name= name,
-            id_from_Api= id_from_Api,
+            id_from_API= id_from_Api,
             symbol= symbol,
             quantity= quantity,
             current_price= current_price

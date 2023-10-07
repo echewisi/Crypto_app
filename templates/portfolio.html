@@ -83,16 +83,20 @@
                 <td>{{ crypto.current_price }}</td>
                 <td>{{ crypto.quantity }}</td>
                 <td>
-                    <a href="{% url 'delete_from_portfolio' crypto.id %}"><i class="fa fa-trash red-arrow"></i></a>
+                    <a href="{% url 'port_delete' crypto.id %}"><i class="fa fa-trash red-arrow"></i></a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
 </div>
 <div class="alert alert-info py-3 mb-3 fancy-color">
-    <h4 class="mb-0 text-light">Total Portfolio Value</h4>
-    <p class="mt-2 display-4 text-light">${{ new_portfolio_value }}</p>
+    <h4 class="mb-0 text-dark">Total Portfolio Value</h4>
+    <p class="mt-2 display-4 text-dark">${{ new_portfolio_value }}</p>
+    <p>
+        <a class="btn btn-primary" href="{% url 'home' %}">Add Cryptocurrencies</a>
+    </p>
 </div>
 {% else %}
 <div class="alert alert-danger my-3 p-3 rounded text-center text-light">
