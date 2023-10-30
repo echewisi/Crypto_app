@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from ..main.models import Profile, Referral, Cryptomodel, Portfolio
+from main.models import Profile, Referral, Cryptomodel, Portfolio
 from .serializers import ProfileSerializer, ReferralSerializer, CryptomodelSerializer, PortfolioSerializer
 
 class ProfileCreateView(generics.CreateAPIView):

@@ -1,4 +1,4 @@
-from ..main.models import Cryptomodel, Referral, Profile, Portfolio
+from main.models import Cryptomodel, Referral, Profile, Portfolio
 from rest_framework import serializers
 
 class CryptomodelSerializer(serializers.ModelSerializer):
